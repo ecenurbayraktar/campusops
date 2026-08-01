@@ -1,0 +1,93 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  STUDENT
+  STAFF
+  DEPARTMENT_MANAGER
+  ADMIN
+}
+
+enum DepartmentType {
+  ACADEMIC
+  ADMINISTRATIVE
+  TECHNICAL
+  SUPPORT
+}
+
+enum RecordStatus {
+  OPEN
+  ASSIGNED
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+  CANCELLED
+}
+
+enum RecordPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+model User {
+  id           String   @id @default(cuid())
+  firstName    String
+  lastName     String
+  email        String   @unique
+  passwordHash String
+  role         UserRole @default(STUDENT)
+  isActive     Boolean  @default(true)
+
+  departmentId String?
+  department   Department? @relation(fields: [departmentId], references: [id])
+
+  createdRecords  Record[] @relation("CreatedRecords")
+  assignedRecords Record[] @relation("AssignedRecords")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Department {
+  id          String         @id @default(cuid())
+  name        String         @unique
+  code        String         @unique
+  type        DepartmentType
+  description String?
+  isActive    Boolean        @default(true)
+
+  users   User[]
+  records Record[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Record {
+  id          String         @id @default(cuid())
+  title       String
+  description String
+  status      RecordStatus   @default(OPEN)
+  priority    RecordPriority @default(MEDIUM)
+  resolution  String?
+
+  createdById String
+  createdBy   User   @relation("CreatedRecords", fields: [createdById], references: [id])
+
+  departmentId String
+  department   Department @relation(fields: [departmentId], references: [id])
+
+  assignedToId String?
+  assignedTo   User?   @relation("AssignedRecords", fields: [assignedToId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
