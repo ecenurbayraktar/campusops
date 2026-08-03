@@ -54,3 +54,8 @@ export type Department = Prisma.DepartmentModel
  * 
  */
 export type Record = Prisma.RecordModel
+/**
+ * Model Course
+ * 
+ */
+export type Course = Prisma.CourseModel

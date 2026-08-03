@@ -3,6 +3,7 @@ generator client {
   output       = "../src/generated/prisma"
   moduleFormat = "cjs"
 }
+
 datasource db {
   provider = "postgresql"
 }
@@ -37,6 +38,12 @@ enum RecordPriority {
   URGENT
 }
 
+enum Semester {
+  FALL
+  SPRING
+  SUMMER
+}
+
 model User {
   id           String   @id @default(cuid())
   firstName    String
@@ -64,9 +71,9 @@ model Department {
   description String?
   isActive    Boolean        @default(true)
 
-  users   User[]
-  records Record[]
-
+  users     User[]
+  records   Record[]
+  courses   Course[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -87,6 +94,24 @@ model Record {
 
   assignedToId String?
   assignedTo   User?   @relation("AssignedRecords", fields: [assignedToId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Course {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  name        String
+  description String?
+  localCredit Int
+  ects        Int
+  year        Int
+  semester    Semester
+  isActive    Boolean  @default(true)
+
+  departmentId String
+  department   Department @relation(fields: [departmentId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

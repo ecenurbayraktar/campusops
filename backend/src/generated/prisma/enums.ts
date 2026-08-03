@@ -49,3 +49,12 @@ export const RecordPriority = {
 } as const
 
 export type RecordPriority = (typeof RecordPriority)[keyof typeof RecordPriority]
+
+
+export const Semester = {
+  FALL: 'FALL',
+  SPRING: 'SPRING',
+  SUMMER: 'SUMMER'
+} as const
+
+export type Semester = (typeof Semester)[keyof typeof Semester]
