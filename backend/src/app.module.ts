@@ -6,6 +6,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './users/users.module';
 import { DepartmentsModule } from './departments/departments.module';
 import { CoursesModule } from './courses/courses.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { CoursesModule } from './courses/courses.module';
     UsersModule,
     DepartmentsModule,
     CoursesModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
