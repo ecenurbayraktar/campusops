@@ -2,6 +2,7 @@ import {
   Injectable,
   InternalServerErrorException,
   UnauthorizedException,
+  BadRequestException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
@@ -10,6 +11,8 @@ import * as bcrypt from 'bcrypt';
 import { UsersService } from '../users/users.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
+import { MailService } from '../mail/mail.service';
+import { createHash, randomBytes } from 'crypto';
 
 type TokenPayload = {
   sub: string;
@@ -23,6 +26,7 @@ export class AuthService {
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
+    private readonly mailService: MailService,
   ) {}
 
   async register(registerDto: RegisterDto) {
@@ -169,6 +173,92 @@ export class AuthService {
       message: 'Logout successful.',
     };
   }
+
+  async forgotPassword(email: string) {
+  const normalizedEmail = email.trim().toLowerCase();
+
+  const genericResponse = {
+    message:
+      'If the account exists, a password reset email has been sent.',
+  };
+
+  const user = await this.usersService.findByEmail(normalizedEmail);
+
+  if (!user || !user.isActive) {
+    return genericResponse;
+  }
+
+  const resetToken = randomBytes(32).toString('hex');
+
+  const resetPasswordToken = createHash('sha256')
+    .update(resetToken)
+    .digest('hex');
+
+  const resetPasswordExpiresAt = new Date(
+    Date.now() + 15 * 60 * 1000,
+  );
+
+  await this.usersService.savePasswordResetToken(
+    user.id,
+    resetPasswordToken,
+    resetPasswordExpiresAt,
+  );
+
+  try {
+    await this.mailService.sendPasswordResetEmail(
+      user.email,
+      resetToken,
+    );
+  } catch (error) {
+    await this.usersService.clearPasswordResetToken(user.id);
+    throw error;
+  }
+
+  return genericResponse;
+}
+
+async resetPassword(
+  token: string,
+  newPassword: string,
+) {
+  const resetPasswordToken = createHash('sha256')
+    .update(token)
+    .digest('hex');
+
+  const user =
+    await this.usersService.findByValidPasswordResetToken(
+      resetPasswordToken,
+      new Date(),
+    );
+
+  if (!user) {
+    throw new BadRequestException(
+      'Password reset token is invalid or expired.',
+    );
+  }
+
+  const sameAsOldPassword = await bcrypt.compare(
+    newPassword,
+    user.passwordHash,
+  );
+
+  if (sameAsOldPassword) {
+    throw new BadRequestException(
+      'New password must be different from the current password.',
+    );
+  }
+
+  const passwordHash = await bcrypt.hash(newPassword, 12);
+
+  await this.usersService.updatePasswordAfterReset(
+    user.id,
+    passwordHash,
+  );
+
+  return {
+    message: 'Password reset successfully.',
+  };
+}
 
   private async verifyRefreshToken(
     refreshToken: string,

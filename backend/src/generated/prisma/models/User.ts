@@ -34,6 +34,8 @@ export type UserMinAggregateOutputType = {
   isActive: boolean | null
   refreshTokenHash: string | null
   lastLoginAt: Date | null
+  resetPasswordToken: string | null
+  resetPasswordExpiresAt: Date | null
   departmentId: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -49,6 +51,8 @@ export type UserMaxAggregateOutputType = {
   isActive: boolean | null
   refreshTokenHash: string | null
   lastLoginAt: Date | null
+  resetPasswordToken: string | null
+  resetPasswordExpiresAt: Date | null
   departmentId: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -64,6 +68,8 @@ export type UserCountAggregateOutputType = {
   isActive: number
   refreshTokenHash: number
   lastLoginAt: number
+  resetPasswordToken: number
+  resetPasswordExpiresAt: number
   departmentId: number
   createdAt: number
   updatedAt: number
@@ -81,6 +87,8 @@ export type UserMinAggregateInputType = {
   isActive?: true
   refreshTokenHash?: true
   lastLoginAt?: true
+  resetPasswordToken?: true
+  resetPasswordExpiresAt?: true
   departmentId?: true
   createdAt?: true
   updatedAt?: true
@@ -96,6 +104,8 @@ export type UserMaxAggregateInputType = {
   isActive?: true
   refreshTokenHash?: true
   lastLoginAt?: true
+  resetPasswordToken?: true
+  resetPasswordExpiresAt?: true
   departmentId?: true
   createdAt?: true
   updatedAt?: true
@@ -111,6 +121,8 @@ export type UserCountAggregateInputType = {
   isActive?: true
   refreshTokenHash?: true
   lastLoginAt?: true
+  resetPasswordToken?: true
+  resetPasswordExpiresAt?: true
   departmentId?: true
   createdAt?: true
   updatedAt?: true
@@ -199,6 +211,8 @@ export type UserGroupByOutputType = {
   isActive: boolean
   refreshTokenHash: string | null
   lastLoginAt: Date | null
+  resetPasswordToken: string | null
+  resetPasswordExpiresAt: Date | null
   departmentId: string | null
   createdAt: Date
   updatedAt: Date
@@ -235,6 +249,8 @@ export type UserWhereInput = {
   isActive?: Prisma.BoolFilter<"User"> | boolean
   refreshTokenHash?: Prisma.StringNullableFilter<"User"> | string | null
   lastLoginAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  resetPasswordToken?: Prisma.StringNullableFilter<"User"> | string | null
+  resetPasswordExpiresAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   departmentId?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -253,6 +269,8 @@ export type UserOrderByWithRelationInput = {
   isActive?: Prisma.SortOrder
   refreshTokenHash?: Prisma.SortOrderInput | Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  resetPasswordToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  resetPasswordExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   departmentId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -264,6 +282,7 @@ export type UserOrderByWithRelationInput = {
 export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   email?: string
+  resetPasswordToken?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
@@ -274,13 +293,14 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   isActive?: Prisma.BoolFilter<"User"> | boolean
   refreshTokenHash?: Prisma.StringNullableFilter<"User"> | string | null
   lastLoginAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  resetPasswordExpiresAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   departmentId?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   department?: Prisma.XOR<Prisma.DepartmentNullableScalarRelationFilter, Prisma.DepartmentWhereInput> | null
   createdRecords?: Prisma.RecordListRelationFilter
   assignedRecords?: Prisma.RecordListRelationFilter
-}, "id" | "email">
+}, "id" | "email" | "resetPasswordToken">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -292,6 +312,8 @@ export type UserOrderByWithAggregationInput = {
   isActive?: Prisma.SortOrder
   refreshTokenHash?: Prisma.SortOrderInput | Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  resetPasswordToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  resetPasswordExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   departmentId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -313,6 +335,8 @@ export type UserScalarWhereWithAggregatesInput = {
   isActive?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   refreshTokenHash?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   lastLoginAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  resetPasswordToken?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  resetPasswordExpiresAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   departmentId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -328,6 +352,8 @@ export type UserCreateInput = {
   isActive?: boolean
   refreshTokenHash?: string | null
   lastLoginAt?: Date | string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   department?: Prisma.DepartmentCreateNestedOneWithoutUsersInput
@@ -345,6 +371,8 @@ export type UserUncheckedCreateInput = {
   isActive?: boolean
   refreshTokenHash?: string | null
   lastLoginAt?: Date | string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpiresAt?: Date | string | null
   departmentId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -362,6 +390,8 @@ export type UserUpdateInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   refreshTokenHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   department?: Prisma.DepartmentUpdateOneWithoutUsersNestedInput
@@ -379,6 +409,8 @@ export type UserUncheckedUpdateInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   refreshTokenHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -396,6 +428,8 @@ export type UserCreateManyInput = {
   isActive?: boolean
   refreshTokenHash?: string | null
   lastLoginAt?: Date | string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpiresAt?: Date | string | null
   departmentId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -411,6 +445,8 @@ export type UserUpdateManyMutationInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   refreshTokenHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -425,6 +461,8 @@ export type UserUncheckedUpdateManyInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   refreshTokenHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -440,6 +478,8 @@ export type UserCountOrderByAggregateInput = {
   isActive?: Prisma.SortOrder
   refreshTokenHash?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrder
+  resetPasswordToken?: Prisma.SortOrder
+  resetPasswordExpiresAt?: Prisma.SortOrder
   departmentId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -455,6 +495,8 @@ export type UserMaxOrderByAggregateInput = {
   isActive?: Prisma.SortOrder
   refreshTokenHash?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrder
+  resetPasswordToken?: Prisma.SortOrder
+  resetPasswordExpiresAt?: Prisma.SortOrder
   departmentId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -470,6 +512,8 @@ export type UserMinOrderByAggregateInput = {
   isActive?: Prisma.SortOrder
   refreshTokenHash?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrder
+  resetPasswordToken?: Prisma.SortOrder
+  resetPasswordExpiresAt?: Prisma.SortOrder
   departmentId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -601,6 +645,8 @@ export type UserCreateWithoutDepartmentInput = {
   isActive?: boolean
   refreshTokenHash?: string | null
   lastLoginAt?: Date | string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   createdRecords?: Prisma.RecordCreateNestedManyWithoutCreatedByInput
@@ -617,6 +663,8 @@ export type UserUncheckedCreateWithoutDepartmentInput = {
   isActive?: boolean
   refreshTokenHash?: string | null
   lastLoginAt?: Date | string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   createdRecords?: Prisma.RecordUncheckedCreateNestedManyWithoutCreatedByInput
@@ -662,6 +710,8 @@ export type UserScalarWhereInput = {
   isActive?: Prisma.BoolFilter<"User"> | boolean
   refreshTokenHash?: Prisma.StringNullableFilter<"User"> | string | null
   lastLoginAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  resetPasswordToken?: Prisma.StringNullableFilter<"User"> | string | null
+  resetPasswordExpiresAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   departmentId?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -677,6 +727,8 @@ export type UserCreateWithoutCreatedRecordsInput = {
   isActive?: boolean
   refreshTokenHash?: string | null
   lastLoginAt?: Date | string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   department?: Prisma.DepartmentCreateNestedOneWithoutUsersInput
@@ -693,6 +745,8 @@ export type UserUncheckedCreateWithoutCreatedRecordsInput = {
   isActive?: boolean
   refreshTokenHash?: string | null
   lastLoginAt?: Date | string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpiresAt?: Date | string | null
   departmentId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -714,6 +768,8 @@ export type UserCreateWithoutAssignedRecordsInput = {
   isActive?: boolean
   refreshTokenHash?: string | null
   lastLoginAt?: Date | string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   department?: Prisma.DepartmentCreateNestedOneWithoutUsersInput
@@ -730,6 +786,8 @@ export type UserUncheckedCreateWithoutAssignedRecordsInput = {
   isActive?: boolean
   refreshTokenHash?: string | null
   lastLoginAt?: Date | string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpiresAt?: Date | string | null
   departmentId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -762,6 +820,8 @@ export type UserUpdateWithoutCreatedRecordsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   refreshTokenHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   department?: Prisma.DepartmentUpdateOneWithoutUsersNestedInput
@@ -778,6 +838,8 @@ export type UserUncheckedUpdateWithoutCreatedRecordsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   refreshTokenHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -805,6 +867,8 @@ export type UserUpdateWithoutAssignedRecordsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   refreshTokenHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   department?: Prisma.DepartmentUpdateOneWithoutUsersNestedInput
@@ -821,6 +885,8 @@ export type UserUncheckedUpdateWithoutAssignedRecordsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   refreshTokenHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -837,6 +903,8 @@ export type UserCreateManyDepartmentInput = {
   isActive?: boolean
   refreshTokenHash?: string | null
   lastLoginAt?: Date | string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -851,6 +919,8 @@ export type UserUpdateWithoutDepartmentInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   refreshTokenHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdRecords?: Prisma.RecordUpdateManyWithoutCreatedByNestedInput
@@ -867,6 +937,8 @@ export type UserUncheckedUpdateWithoutDepartmentInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   refreshTokenHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdRecords?: Prisma.RecordUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -883,6 +955,8 @@ export type UserUncheckedUpdateManyWithoutDepartmentInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   refreshTokenHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -937,6 +1011,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   isActive?: boolean
   refreshTokenHash?: boolean
   lastLoginAt?: boolean
+  resetPasswordToken?: boolean
+  resetPasswordExpiresAt?: boolean
   departmentId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -956,6 +1032,8 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   isActive?: boolean
   refreshTokenHash?: boolean
   lastLoginAt?: boolean
+  resetPasswordToken?: boolean
+  resetPasswordExpiresAt?: boolean
   departmentId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -972,6 +1050,8 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   isActive?: boolean
   refreshTokenHash?: boolean
   lastLoginAt?: boolean
+  resetPasswordToken?: boolean
+  resetPasswordExpiresAt?: boolean
   departmentId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -988,12 +1068,14 @@ export type UserSelectScalar = {
   isActive?: boolean
   refreshTokenHash?: boolean
   lastLoginAt?: boolean
+  resetPasswordToken?: boolean
+  resetPasswordExpiresAt?: boolean
   departmentId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "passwordHash" | "role" | "isActive" | "refreshTokenHash" | "lastLoginAt" | "departmentId" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "passwordHash" | "role" | "isActive" | "refreshTokenHash" | "lastLoginAt" | "resetPasswordToken" | "resetPasswordExpiresAt" | "departmentId" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   department?: boolean | Prisma.User$departmentArgs<ExtArgs>
   createdRecords?: boolean | Prisma.User$createdRecordsArgs<ExtArgs>
@@ -1024,6 +1106,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     isActive: boolean
     refreshTokenHash: string | null
     lastLoginAt: Date | null
+    resetPasswordToken: string | null
+    resetPasswordExpiresAt: Date | null
     departmentId: string | null
     createdAt: Date
     updatedAt: Date
@@ -1462,6 +1546,8 @@ export interface UserFieldRefs {
   readonly isActive: Prisma.FieldRef<"User", 'Boolean'>
   readonly refreshTokenHash: Prisma.FieldRef<"User", 'String'>
   readonly lastLoginAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly resetPasswordToken: Prisma.FieldRef<"User", 'String'>
+  readonly resetPasswordExpiresAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly departmentId: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>

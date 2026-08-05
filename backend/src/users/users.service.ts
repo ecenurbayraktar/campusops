@@ -193,5 +193,58 @@ export class UsersService {
     },
   });
 }
+  async savePasswordResetToken(
+  userId: string,
+  resetPasswordToken: string,
+  resetPasswordExpiresAt: Date,
+) {
+  return this.prisma.user.update({
+    where: { id: userId },
+    data: {
+      resetPasswordToken,
+      resetPasswordExpiresAt,
+    },
+  });
+}
+
+async clearPasswordResetToken(userId: string) {
+  return this.prisma.user.update({
+    where: { id: userId },
+    data: {
+      resetPasswordToken: null,
+      resetPasswordExpiresAt: null,
+    },
+  });
+}
+
+async findByValidPasswordResetToken(
+  resetPasswordToken: string,
+  currentDate: Date,
+) {
+  return this.prisma.user.findFirst({
+    where: {
+      resetPasswordToken,
+      resetPasswordExpiresAt: {
+        gt: currentDate,
+      },
+      isActive: true,
+    },
+  });
+}
+
+async updatePasswordAfterReset(
+  userId: string,
+  passwordHash: string,
+) {
+  return this.prisma.user.update({
+    where: { id: userId },
+    data: {
+      passwordHash,
+      resetPasswordToken: null,
+      resetPasswordExpiresAt: null,
+      refreshTokenHash: null,
+    },
+  });
+}
 
 }
