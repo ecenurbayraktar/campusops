@@ -59,3 +59,8 @@ export type Record = Prisma.RecordModel
  * 
  */
 export type Course = Prisma.CourseModel
+/**
+ * Model AuditLog
+ * 
+ */
+export type AuditLog = Prisma.AuditLogModel

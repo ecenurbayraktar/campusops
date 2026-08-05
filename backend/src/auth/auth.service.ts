@@ -13,6 +13,8 @@ import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { MailService } from '../mail/mail.service';
 import { createHash, randomBytes } from 'crypto';
+import { AuditService } from '../audit/audit.service';
+import { AuditAction } from '../generated/prisma/client';
 
 type TokenPayload = {
   sub: string;
@@ -27,6 +29,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
     private readonly mailService: MailService,
+    private readonly auditService: AuditService,
   ) {}
 
   async register(registerDto: RegisterDto) {
@@ -63,6 +66,13 @@ export class AuthService {
     const user = await this.usersService.findByEmail(normalizedEmail);
 
     if (!user) {
+      await this.auditService.log({
+  action: AuditAction.LOGIN_FAILED,
+  metadata: {
+    email: normalizedEmail,
+    reason: 'Invalid credentials',
+  },
+});
       throw new UnauthorizedException(
         'Email or password is incorrect.',
       );
@@ -101,7 +111,13 @@ export class AuthService {
     if (!updatedUser) {
       throw new UnauthorizedException('Authentication failed.');
     }
-
+    await this.auditService.log({
+    action: AuditAction.LOGIN_SUCCESS,
+  performedBy: updatedUser.id,
+  role: updatedUser.role,
+  entity: 'User',
+  entityId: updatedUser.id,
+});
     return {
       message: 'Login successful.',
       user: this.buildSafeUserResponse(updatedUser),
@@ -209,6 +225,13 @@ export class AuthService {
       user.email,
       resetToken,
     );
+    await this.auditService.log({
+  action: AuditAction.PASSWORD_RESET_REQUESTED,
+  performedBy: user.id,
+  role: user.role,
+  entity: 'User',
+  entityId: user.id,
+});
   } catch (error) {
     await this.usersService.clearPasswordResetToken(user.id);
     throw error;
@@ -254,7 +277,13 @@ async resetPassword(
     user.id,
     passwordHash,
   );
-
+  await this.auditService.log({
+  action: AuditAction.PASSWORD_RESET_COMPLETED,
+  performedBy: user.id,
+  role: user.role,
+  entity: 'User',
+  entityId: user.id,
+});
   return {
     message: 'Password reset successfully.',
   };

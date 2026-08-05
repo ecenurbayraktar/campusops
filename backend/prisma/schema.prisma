@@ -15,6 +15,23 @@ enum UserRole {
   ADMIN
 }
 
+enum AuditAction {
+  LOGIN_SUCCESS
+  LOGIN_FAILED
+  LOGOUT
+
+  USER_CREATED
+  USER_UPDATED
+  USER_DEACTIVATED
+  USER_REACTIVATED
+
+  PASSWORD_RESET_REQUESTED
+  PASSWORD_RESET_COMPLETED
+
+  DEPARTMENT_CREATED
+  COURSE_CREATED
+}
+
 enum DepartmentType {
   ACADEMIC
   ADMINISTRATIVE
@@ -121,4 +138,21 @@ model Course {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model AuditLog {
+  id          String      @id @default(cuid())
+  action      AuditAction
+  entity      String?
+  entityId    String?
+  performedBy String?
+  role        UserRole?
+  ipAddress   String?
+  userAgent   String?
+  metadata    Json?
+  createdAt   DateTime    @default(now())
+
+  @@index([action])
+  @@index([performedBy])
+  @@index([createdAt])
 }

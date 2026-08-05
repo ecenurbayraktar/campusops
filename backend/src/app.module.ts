@@ -14,6 +14,7 @@ import { DepartmentsModule } from './departments/departments.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './users/users.module';
 import { MailModule } from './mail/mail.module';
+import { AuditModule } from './audit/audit.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { MailModule } from './mail/mail.module';
     CoursesModule,
     AuthModule,
     MailModule,
+    AuditModule,
   ],
   controllers: [AppController],
   providers: [
